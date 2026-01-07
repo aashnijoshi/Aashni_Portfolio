@@ -30,7 +30,7 @@ export function ServicesSection() {
               direction: "top",
             },
             {
-              title: "head of growth at Hyperspell",
+              title: "head of growth at Hyperspell (YC F25)",
               description: "helping shape the product from the ground up",
               direction: "right",
             },

@@ -22,11 +22,11 @@ export function WorkSection() {
   const experiences: Record<Tab, Project[]> = {
     present: [
       {
-        title: "Hyperspell",
+        title: "Hyperspell (YC F25)",
         role: "head of growth",
         period: "Aug 2024 – Present",
         description:
-          "early team member at an ai infrastructure startup. i've worked across product and engineering, helped run events, and learned what it means to build with users in mind from day one.",
+          "founding team member at an ai infrastructure startup. i've worked across product and engineering, helped run events, and learned what it means to build with users in mind from day one.",
         link: "https://www.hyperspell.com/",
         images: ["/hyperspell1.jpeg", "/hyperspell2.jpeg", "/hyperspell3.png", "/hyperspell4%20Large.jpeg"],
       },
