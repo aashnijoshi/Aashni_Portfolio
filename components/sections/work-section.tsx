@@ -349,9 +349,9 @@ function ProjectDetail({
       {project.images && project.images.length > 0 && (
         <div className="relative">
           {project.title === "Hyperspell" ? (
-            <div className="grid grid-cols-2 gap-3 rounded-2xl overflow-hidden shadow-[0_12px_60px_-28px_rgba(0,0,0,0.45)] max-h-[200px]">
+            <div className="grid grid-cols-2 gap-3 rounded-2xl overflow-hidden shadow-[0_12px_60px_-28px_rgba(0,0,0,0.45)] max-h-[140px]">
               {project.images.slice(0, 4).map((img) => (
-                <div key={img} className="relative aspect-[3/4.8] overflow-hidden">
+                <div key={img} className="relative aspect-[3/4] overflow-hidden">
                   <img
                     src={img}
                     alt={project.title}
@@ -362,12 +362,12 @@ function ProjectDetail({
               ))}
             </div>
           ) : (
-            <div className="relative overflow-hidden rounded-2xl shadow-[0_12px_60px_-28px_rgba(0,0,0,0.45)]">
+            <div className="relative overflow-hidden rounded-2xl shadow-[0_12px_60px_-28px_rgba(0,0,0,0.45)] max-w-[160px]">
               <img
                 src={project.images[0]}
                 alt={project.title}
                 className="h-full w-full object-cover object-center animate-in fade-in slide-in-from-right-6 duration-500"
-                style={{ aspectRatio: "4/5" }}
+                style={{ aspectRatio: "3/4" }}
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/25 via-transparent to-transparent" />
             </div>
