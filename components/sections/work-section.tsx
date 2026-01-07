@@ -59,7 +59,7 @@ export function WorkSection() {
       },
       {
         title: "Stanford XLab",
-        role: "software engineering intern",
+        role: "research intern",
         period: "Jan 2024 – May 2024",
         description:
           "collaborated with researchers to build Excel models synthesizing semiconductor market data from 20+ interviews. developed an AI-powered research chatbot with curated knowledge base.",
