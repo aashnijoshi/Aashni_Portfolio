@@ -13,7 +13,7 @@ const _instrumentSerif = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
-  title: "Aashni Joshi",
+  title: "Aashni's world",
   description: "Personal website",
   generator: "v0.app",
 }
