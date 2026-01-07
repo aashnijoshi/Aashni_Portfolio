@@ -349,7 +349,7 @@ function ProjectDetail({
       {project.images && project.images.length > 0 && (
         <div className="relative">
           {project.title === "Hyperspell" ? (
-            <div className="grid grid-cols-2 gap-1.5 rounded-2xl overflow-hidden shadow-[0_12px_60px_-28px_rgba(0,0,0,0.45)] max-w-[240px] max-h-[240px]">
+            <div className="grid grid-cols-2 gap-2 rounded-2xl overflow-hidden shadow-[0_12px_60px_-28px_rgba(0,0,0,0.45)] max-w-[320px]">
               {project.images.slice(0, 4).map((img) => (
                 <div key={img} className="relative aspect-[3/4] overflow-hidden">
                   <img
@@ -362,7 +362,7 @@ function ProjectDetail({
               ))}
             </div>
           ) : (
-            <div className="relative overflow-hidden rounded-2xl shadow-[0_12px_60px_-28px_rgba(0,0,0,0.45)] max-w-[200px]">
+            <div className="relative overflow-hidden rounded-2xl shadow-[0_12px_60px_-28px_rgba(0,0,0,0.45)] max-w-[240px]">
               <img
                 src={project.images[0]}
                 alt={project.title}
