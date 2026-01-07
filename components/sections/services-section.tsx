@@ -25,7 +25,7 @@ export function ServicesSection() {
         <div className="grid gap-8 md:grid-cols-2 md:gap-x-16 md:gap-y-12 lg:gap-x-24">
           {[
             {
-              title: "studying cs + astrophysics",
+              title: "studying data science + astrophysics",
               description: "at UC berkeley",
               direction: "top",
             },
