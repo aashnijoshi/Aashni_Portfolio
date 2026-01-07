@@ -113,7 +113,7 @@ export function WorkSection() {
       {
         title: "The Universe, But This Time You Understand It",
         role: "author",
-        period: "2025",
+        period: "2022",
         description:
           "authored a science novel on making cosmology feel approachable, clear, and fun for anyone curious about the universe.",
         link: "https://www.amazon.com/Universe-But-This-Time-Understand/dp/B0BHZR3STD?nsdOptOutParam=true&sr=8-1",
