@@ -16,7 +16,13 @@ export const metadata: Metadata = {
   title: "Aashni's world",
   description: "Personal website",
   generator: "v0.app",
+  icons: {
+    icon: [
+      { url: "/lightning-icon.svg", type: "image/svg+xml" },
+    ],
+  },
 }
+
 
 export default function RootLayout({
   children,
