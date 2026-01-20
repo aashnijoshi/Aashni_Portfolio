@@ -67,7 +67,11 @@ export default function Home() {
     }
 
     const handleTouchMove = (e: TouchEvent) => {
-      if (Math.abs(e.touches[0].clientY - touchStartY.current) > 10) {
+      const deltaY = Math.abs(e.touches[0].clientY - touchStartY.current)
+      const deltaX = Math.abs(e.touches[0].clientX - touchStartX.current)
+
+      // Only prevent default if moving vertically with intent (> 30px)
+      if (deltaY > 30 && deltaY > deltaX) {
         e.preventDefault()
       }
     }
@@ -78,7 +82,8 @@ export default function Home() {
       const deltaY = touchStartY.current - touchEndY
       const deltaX = touchStartX.current - touchEndX
 
-      if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 50) {
+      // Reduced threshold from 50 to 40 for more responsive navigation
+      if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 40) {
         if (deltaY > 0 && currentSection < 6) {
           scrollToSection(currentSection + 1)
         } else if (deltaY < 0 && currentSection > 0) {
@@ -215,7 +220,7 @@ export default function Home() {
       </div>
 
       <nav
-        className={`fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-6 py-6 transition-opacity duration-700 md:px-12 ${
+        className={`fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-4 py-4 transition-opacity duration-700 sm:px-6 sm:py-5 md:px-12 md:py-6 ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -256,13 +261,13 @@ export default function Home() {
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* Hero Section */}
-        <section className="flex min-h-screen w-screen shrink-0 items-end justify-between px-6 pb-14 pt-20 md:px-12 md:pb-24 md:pt-24 lg:px-16">
+        <section className="flex min-h-screen w-full shrink-0 items-end justify-between px-4 pb-8 pt-16 sm:px-6 sm:pb-12 sm:pt-20 md:px-12 md:pb-24 md:pt-24 lg:px-16">
           <div className="max-w-4xl pb-6">
-            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-serif text-6xl font-normal leading-[1.1] tracking-tight text-foreground duration-1000 md:text-7xl lg:text-8xl">
-              <span className="text-balance text-9xl">Aashni Joshi</span>
+            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-serif text-4xl font-normal leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+              <span className="text-balance">Aashni Joshi</span>
             </h1>
-            <p className="mb-8 max-w-2xl animate-in fade-in slide-in-from-bottom-4 text-lg leading-relaxed text-foreground/90 duration-1000 delay-200 md:text-xl">
-              <span className="text-pretty text-lg">
+            <p className="mb-6 max-w-2xl animate-in fade-in slide-in-from-bottom-4 text-base leading-relaxed text-foreground/90 duration-1000 delay-200 sm:mb-8 sm:text-lg md:text-xl">
+              <span className="text-pretty">
                 {
                   "data science + astrophysics @ UC berkeley. i like building things i'm curious about, studying the universe, and learning from the people i meet along the way."
                 }
