@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   title: "Aashni's world",
   description: "Personal website",
   generator: "v0.app",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+  },
   icons: {
     icon: [
       { url: "/lightning-icon.svg", type: "image/svg+xml" },

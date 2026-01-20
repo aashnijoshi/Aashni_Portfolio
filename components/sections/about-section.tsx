@@ -8,7 +8,7 @@ export function AboutSection({ scrollToSection }: { scrollToSection?: (index: nu
   return (
     <section
       ref={ref}
-      className="flex h-screen w-screen shrink-0 snap-start items-center px-4 pt-48 md:px-12 md:pt-40 lg:px-16"
+      className="flex h-screen w-full shrink-0 snap-start items-center px-4 pt-20 sm:pt-32 md:px-12 md:pt-40 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl grid gap-12 lg:grid-cols-[1.05fr_0.95fr] items-center">
         <div>
