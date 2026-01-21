@@ -136,7 +136,7 @@ export function WorkSection() {
             isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"
           }`}
         >
-          <h2 className="mb-2 font-serif text-4xl font-normal tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          <h2 className="mb-2 font-serif text-3xl font-normal tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
             things i've worked on
           </h2>
           <p className="font-mono text-sm text-foreground/60 md:text-base">/ projects & experiences</p>
