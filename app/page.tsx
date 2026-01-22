@@ -62,14 +62,30 @@ export default function Home() {
   }, [])
 
   const scrollToSection = (index: number) => {
-    if (scrollContainerRef.current) {
+    if (!scrollContainerRef.current) return
+
+    if (isMobile) {
+      // Mobile: scroll vertically to section
+      const sections = scrollContainerRef.current.children
+      if (sections[index]) {
+        const section = sections[index] as HTMLElement
+        const container = scrollContainerRef.current
+        const offsetTop = section.offsetTop
+
+        container.scrollTo({
+          top: offsetTop,
+          behavior: "smooth",
+        })
+      }
+    } else {
+      // Desktop: scroll horizontally
       const sectionWidth = scrollContainerRef.current.offsetWidth
       scrollContainerRef.current.scrollTo({
         left: sectionWidth * index,
         behavior: "smooth",
       })
-      setCurrentSection(index)
     }
+    setCurrentSection(index)
   }
 
   useEffect(() => {
@@ -201,7 +217,7 @@ export default function Home() {
   }, [currentSection, isMobile])
 
   return (
-    <main className="relative h-screen w-full overflow-hidden bg-background">
+    <main className="relative h-screen w-full overflow-x-hidden bg-background md:overflow-hidden">
       <CustomCursor />
       <GrainOverlay />
 
@@ -276,7 +292,7 @@ export default function Home() {
       <div
         ref={scrollContainerRef}
         data-scroll-container
-        className={`relative z-10 flex flex-col overflow-y-auto transition-opacity duration-700 md:h-screen md:flex-row md:overflow-x-auto md:overflow-y-hidden ${
+        className={`relative z-10 flex h-screen flex-col overflow-y-auto transition-opacity duration-700 md:flex-row md:overflow-x-auto md:overflow-y-hidden ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
