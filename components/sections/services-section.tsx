@@ -16,7 +16,7 @@ export function ServicesSection() {
             isVisible ? "translate-y-0 opacity-100" : "-translate-y-12 opacity-0"
           }`}
         >
-          <h2 className="mb-2 font-serif text-4xl font-normal tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
+          <h2 className="mb-2 font-serif text-5xl font-normal tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl">
             right now
           </h2>
           <p className="font-mono text-sm text-foreground/60 md:text-base">/ what i'm up to</p>
