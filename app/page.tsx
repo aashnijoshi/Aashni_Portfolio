@@ -115,7 +115,7 @@ export default function Home() {
 
       // Reduced threshold from 50 to 40 for more responsive navigation
       if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > 40) {
-        if (deltaY > 0 && currentSection < 6) {
+        if (deltaY > 0 && currentSection < 4) {
           scrollToSection(currentSection + 1)
         } else if (deltaY < 0 && currentSection > 0) {
           scrollToSection(currentSection - 1)
@@ -193,7 +193,7 @@ export default function Home() {
         const scrollLeft = scrollContainerRef.current.scrollLeft
         const newSection = Math.round(scrollLeft / sectionWidth)
 
-        if (newSection !== currentSection && newSection >= 0 && newSection <= 6) {
+        if (newSection !== currentSection && newSection >= 0 && newSection <= 4) {
           setCurrentSection(newSection)
         }
 
@@ -284,7 +284,7 @@ export default function Home() {
           ))}
         </div>
 
-        <MagneticButton variant="secondary" onClick={() => scrollToSection(6)}>
+        <MagneticButton variant="secondary" onClick={() => scrollToSection(4)}>
           Get in Touch
         </MagneticButton>
       </nav>
@@ -298,20 +298,20 @@ export default function Home() {
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* Hero Section */}
-        <section className="flex min-h-screen w-full items-end justify-between px-4 pb-8 pt-16 sm:px-6 sm:pb-12 sm:pt-20 md:shrink-0 md:px-12 md:pb-24 md:pt-24 lg:px-16">
+        <section className="relative flex min-h-screen w-full items-end justify-between px-4 pb-8 pt-16 sm:px-6 sm:pb-12 sm:pt-20 md:shrink-0 md:px-12 md:pb-24 md:pt-24 lg:px-16">
+          {/* Mobile Profile Picture - Top Right */}
+          <div className="absolute right-4 top-20 h-24 w-24 shrink-0 overflow-hidden rounded-full sm:right-6 md:hidden">
+            <img
+              src="/myphotoforfirstpage.jpg"
+              alt="Aashni Joshi"
+              className="h-full w-full object-cover object-[center_35%]"
+            />
+          </div>
+
           <div className="max-w-4xl pb-6">
-            <div className="mb-6 flex items-center gap-4 md:block">
-              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full md:hidden">
-                <img
-                  src="/myphotoforfirstpage.jpg"
-                  alt="Aashni Joshi"
-                  className="h-full w-full object-cover object-top"
-                />
-              </div>
-              <h1 className="animate-in fade-in slide-in-from-bottom-8 font-serif text-5xl font-normal leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-6xl md:text-6xl lg:text-7xl xl:text-8xl">
-                <span className="text-balance">Aashni Joshi</span>
-              </h1>
-            </div>
+            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-serif text-6xl font-normal leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-7xl md:text-7xl lg:text-8xl xl:text-9xl">
+              <span className="text-balance">Aashni Joshi</span>
+            </h1>
             <p className="mb-6 max-w-2xl animate-in fade-in slide-in-from-bottom-4 text-base leading-relaxed text-foreground/90 duration-1000 delay-200 sm:mb-8 sm:text-lg md:text-xl">
               <span className="text-pretty">
                 {
@@ -341,7 +341,7 @@ export default function Home() {
               <MagneticButton size="lg" variant="primary" onClick={() => scrollToSection(1)}>
                 my work
               </MagneticButton>
-              <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection(6)}>
+              <MagneticButton size="lg" variant="secondary" onClick={() => scrollToSection(4)}>
                 say hi
               </MagneticButton>
             </div>
