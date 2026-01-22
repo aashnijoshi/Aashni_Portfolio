@@ -300,9 +300,18 @@ export default function Home() {
         {/* Hero Section */}
         <section className="flex min-h-screen w-full items-end justify-between px-4 pb-8 pt-16 sm:px-6 sm:pb-12 sm:pt-20 md:shrink-0 md:px-12 md:pb-24 md:pt-24 lg:px-16">
           <div className="max-w-4xl pb-6">
-            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-serif text-4xl font-normal leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
-              <span className="text-balance">Aashni Joshi</span>
-            </h1>
+            <div className="mb-6 flex items-center gap-4 md:block">
+              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full md:hidden">
+                <img
+                  src="/myphotoforfirstpage.jpg"
+                  alt="Aashni Joshi"
+                  className="h-full w-full object-cover object-top"
+                />
+              </div>
+              <h1 className="animate-in fade-in slide-in-from-bottom-8 font-serif text-5xl font-normal leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-6xl md:text-6xl lg:text-7xl xl:text-8xl">
+                <span className="text-balance">Aashni Joshi</span>
+              </h1>
+            </div>
             <p className="mb-6 max-w-2xl animate-in fade-in slide-in-from-bottom-4 text-base leading-relaxed text-foreground/90 duration-1000 delay-200 sm:mb-8 sm:text-lg md:text-xl">
               <span className="text-pretty">
                 {

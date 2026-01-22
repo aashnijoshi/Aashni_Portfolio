@@ -23,18 +23,18 @@ export function WorkSection() {
     present: [
       {
         title: "Hyperspell (YC F25)",
-        role: "head of growth",
+        role: "data and growth",
         period: "Aug 2024 – Present",
         description:
           "founding team member at an ai infrastructure startup. i've worked across product and engineering, helped run events, and learned what it means to build with users in mind from day one.",
         link: "https://www.hyperspell.com/",
-        images: ["/hyperspell1.jpeg", "/hyperspell2.jpeg", "/hyperspell3.png", "/hyperspell4%20Large.jpeg"],
+        images: ["/hyperspell1.jpeg", "/hyperspell2.jpeg"],
       },
     ],
     past: [
       {
         title: "Astreas",
-        role: "software engineering intern",
+        role: "data science intern",
         period: "Jan 2025 – May 2025",
         description:
           "worked on building the foundation for a pre-launch product. focused on user feedback and growing early interest.",
@@ -43,7 +43,7 @@ export function WorkSection() {
       },
       {
         title: "People+ai",
-        role: "software engineering intern",
+        role: "data science intern",
         period: "May 2024 – Aug 2024",
         description:
           "worked on an ai-powered form pipeline to help streamline application workflows for students in india. focused on accessibility, clarity, and reducing friction.",
@@ -59,7 +59,7 @@ export function WorkSection() {
       },
       {
         title: "Stanford XLab",
-        role: "research intern",
+        role: "data science intern",
         period: "Jan 2024 – May 2024",
         description:
           "collaborated with researchers to build Excel models synthesizing semiconductor market data from 20+ interviews. developed an AI-powered research chatbot with curated knowledge base.",
@@ -160,8 +160,7 @@ export function WorkSection() {
         </div>
 
         <div
-          className="flex-1 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-foreground/20 scrollbar-track-transparent"
-          style={{ maxHeight: "calc(100vh - 280px)" }}
+          className="flex-1 pr-2 md:overflow-y-auto md:scrollbar-thin md:scrollbar-thumb-foreground/20 md:scrollbar-track-transparent md:max-h-[calc(100vh-280px)]"
         >
         {selectedProject && selectedProject.tab === activeTab ? (
           <ProjectDetail

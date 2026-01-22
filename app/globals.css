@@ -124,8 +124,20 @@
     @apply border-border outline-ring/50;
     cursor: none;
   }
+
+  html {
+    /* Ensure consistent sizing across different browsers and zoom levels */
+    font-size: 16px;
+    text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -moz-text-size-adjust: 100%;
+  }
+
   body {
     @apply bg-background text-foreground;
+    /* Prevent layout shifts on different zoom levels */
+    min-height: 100vh;
+    min-height: 100dvh;
   }
 
   [data-scroll-container] {
@@ -145,5 +157,24 @@
   button {
     transform: translateZ(0);
     backface-visibility: hidden;
+  }
+
+  /* Responsive scaling for different screen resolutions */
+  @media (min-width: 1920px) {
+    html {
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 1366px) {
+    html {
+      font-size: 15px;
+    }
+  }
+
+  @media (max-width: 1024px) {
+    html {
+      font-size: 14px;
+    }
   }
 }
