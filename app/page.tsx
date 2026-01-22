@@ -18,6 +18,18 @@ export default function Home() {
   const touchStartX = useRef(0)
   const shaderContainerRef = useRef<HTMLDivElement>(null)
   const scrollThrottleRef = useRef<number>()
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   useEffect(() => {
     const checkShaderReady = () => {
@@ -61,6 +73,9 @@ export default function Home() {
   }
 
   useEffect(() => {
+    // Only enable touch navigation on desktop
+    if (isMobile) return
+
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY.current = e.touches[0].clientY
       touchStartX.current = e.touches[0].clientX
@@ -106,9 +121,12 @@ export default function Home() {
         container.removeEventListener("touchend", handleTouchEnd)
       }
     }
-  }, [currentSection])
+  }, [currentSection, isMobile])
 
   useEffect(() => {
+    // Only enable wheel navigation on desktop
+    if (isMobile) return
+
     const handleWheel = (e: WheelEvent) => {
       if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
         e.preventDefault()
@@ -140,9 +158,12 @@ export default function Home() {
         container.removeEventListener("wheel", handleWheel)
       }
     }
-  }, [currentSection])
+  }, [currentSection, isMobile])
 
   useEffect(() => {
+    // Only track horizontal scroll sections on desktop
+    if (isMobile) return
+
     const handleScroll = () => {
       if (scrollThrottleRef.current) return
 
@@ -177,7 +198,7 @@ export default function Home() {
         cancelAnimationFrame(scrollThrottleRef.current)
       }
     }
-  }, [currentSection])
+  }, [currentSection, isMobile])
 
   return (
     <main className="relative h-screen w-full overflow-hidden bg-background">
@@ -220,7 +241,7 @@ export default function Home() {
       </div>
 
       <nav
-        className={`fixed left-0 right-0 top-0 z-50 flex items-center justify-between px-4 py-4 transition-opacity duration-700 sm:px-6 sm:py-5 md:px-12 md:py-6 ${
+        className={`fixed left-0 right-0 top-0 z-50 flex items-center justify-between bg-background/80 px-4 py-4 backdrop-blur-md transition-opacity duration-700 sm:px-6 sm:py-5 md:bg-transparent md:px-12 md:py-6 md:backdrop-blur-none ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
       >
@@ -255,13 +276,13 @@ export default function Home() {
       <div
         ref={scrollContainerRef}
         data-scroll-container
-        className={`relative z-10 flex h-screen overflow-x-auto overflow-y-hidden transition-opacity duration-700 ${
+        className={`relative z-10 flex flex-col overflow-y-auto transition-opacity duration-700 md:h-screen md:flex-row md:overflow-x-auto md:overflow-y-hidden ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {/* Hero Section */}
-        <section className="flex min-h-screen w-full shrink-0 items-end justify-between px-4 pb-8 pt-16 sm:px-6 sm:pb-12 sm:pt-20 md:px-12 md:pb-24 md:pt-24 lg:px-16">
+        <section className="flex min-h-screen w-full items-end justify-between px-4 pb-8 pt-16 sm:px-6 sm:pb-12 sm:pt-20 md:shrink-0 md:px-12 md:pb-24 md:pt-24 lg:px-16">
           <div className="max-w-4xl pb-6">
             <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-serif text-4xl font-normal leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl">
               <span className="text-balance">Aashni Joshi</span>
@@ -315,7 +336,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-in fade-in duration-1000 delay-500">
+          <div className="absolute bottom-8 left-1/2 hidden -translate-x-1/2 animate-in fade-in duration-1000 delay-500 md:block">
             <div className="flex items-center gap-2">
               <p className="font-mono text-xs text-foreground/80">Scroll to explore</p>
               <div className="flex h-6 w-12 items-center justify-center rounded-full border border-foreground/20 bg-foreground/15 backdrop-blur-md">

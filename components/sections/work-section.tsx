@@ -128,7 +128,7 @@ export function WorkSection() {
   return (
     <section
       ref={ref}
-      className="flex h-screen w-full shrink-0 snap-start items-center px-4 pt-20 pb-6 sm:px-6 sm:pt-24 sm:pb-8 md:px-12 md:pt-28 md:pb-10 lg:px-16"
+      className="flex min-h-screen w-full snap-start items-center px-4 pb-6 pt-24 sm:px-6 sm:pb-8 sm:pt-28 md:h-screen md:shrink-0 md:px-12 md:pb-10 md:pt-28 lg:px-16"
     >
       <div className="mx-auto h-full w-full max-w-7xl flex flex-col">
         <div
@@ -136,7 +136,7 @@ export function WorkSection() {
             isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"
           }`}
         >
-          <h2 className="mb-2 font-serif text-4xl font-normal tracking-tight text-foreground md:text-5xl lg:text-6xl">
+          <h2 className="mb-2 font-serif text-3xl font-normal tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
             things i've worked on
           </h2>
           <p className="font-mono text-sm text-foreground/60 md:text-base">/ projects & experiences</p>

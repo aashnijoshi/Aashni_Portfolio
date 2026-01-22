@@ -9,7 +9,7 @@ export function ContactSection() {
   return (
     <section
       ref={ref}
-      className="flex h-screen w-full shrink-0 snap-start items-center px-4 pt-16 sm:pt-20 md:px-12 md:pt-0 lg:px-16"
+      className="flex min-h-screen w-full snap-start items-center px-4 pb-12 pt-24 sm:pt-20 md:h-screen md:shrink-0 md:px-12 md:pb-0 md:pt-0 lg:px-16"
     >
       <div className="mx-auto w-full max-w-7xl">
         <div className="grid gap-8 md:grid-cols-[1.2fr_1fr] md:gap-16 lg:gap-24">
@@ -19,7 +19,7 @@ export function ContactSection() {
                 isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"
               }`}
             >
-              <h2 className="mb-2 font-serif text-4xl font-normal leading-[1.05] tracking-tight text-foreground md:mb-3 md:text-7xl lg:text-8xl">
+              <h2 className="mb-2 font-serif text-3xl font-normal leading-[1.05] tracking-tight text-foreground sm:text-4xl md:mb-3 md:text-5xl lg:text-6xl xl:text-7xl">
                 let's
                 <br />
                 chat
@@ -39,7 +39,7 @@ export function ContactSection() {
                   <Mail className="h-3 w-3 text-foreground/60" />
                   <span className="font-mono text-xs text-foreground/60">Email</span>
                 </div>
-                <p className="text-foreground transition-colors group-hover:text-foreground/70 font-mono text-xl">
+                <p className="text-foreground transition-colors group-hover:text-foreground/70 font-mono text-base sm:text-lg md:text-xl">
                   aashnijoshi@berkeley.edu
                 </p>
               </a>
@@ -58,7 +58,7 @@ export function ContactSection() {
                     href="https://www.linkedin.com/in/aashnijoshi/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-2 text-base text-foreground transition-colors hover:text-foreground/70 md:text-xl"
+                    className="group flex items-center gap-2 text-sm text-foreground transition-colors hover:text-foreground/70 sm:text-base md:text-lg"
                   >
                     <Linkedin className="h-4 w-4" />
                     LinkedIn
@@ -67,7 +67,7 @@ export function ContactSection() {
                     href="https://github.com/aashnijoshi"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-2 text-base text-foreground transition-colors hover:text-foreground/70 md:text-xl"
+                    className="group flex items-center gap-2 text-sm text-foreground transition-colors hover:text-foreground/70 sm:text-base md:text-lg"
                   >
                     <Github className="h-4 w-4" />
                     GitHub
@@ -76,7 +76,7 @@ export function ContactSection() {
                     href="https://x.com/aashnijoshi_"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-2 text-base text-foreground transition-colors hover:text-foreground/70 md:text-xl"
+                    className="group flex items-center gap-2 text-sm text-foreground transition-colors hover:text-foreground/70 sm:text-base md:text-lg"
                   >
                     <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
@@ -96,7 +96,7 @@ export function ContactSection() {
               }`}
               style={{ transitionDelay: "400ms" }}
             >
-              <p className="mb-4 text-lg leading-relaxed text-foreground/90 md:text-xl font-sans">
+              <p className="mb-4 text-base leading-relaxed text-foreground/90 sm:text-lg md:text-xl font-sans">
                 always down for a coffee!
                 <span className="ml-2 align-middle text-[12px]" style={{ color: "#FFB6C1" }}>
                   ❤
