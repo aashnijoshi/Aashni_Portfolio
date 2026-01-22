@@ -19,7 +19,7 @@ export function ContactSection() {
                 isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"
               }`}
             >
-              <h2 className="mb-2 font-serif text-3xl font-normal leading-[1.05] tracking-tight text-foreground sm:text-4xl md:mb-3 md:text-5xl lg:text-6xl xl:text-7xl">
+              <h2 className="mb-2 font-serif text-4xl font-normal leading-[1.05] tracking-tight text-foreground sm:text-5xl md:mb-3 md:text-6xl lg:text-7xl xl:text-8xl">
                 let's
                 <br />
                 chat
