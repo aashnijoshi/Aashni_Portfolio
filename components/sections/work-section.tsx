@@ -23,7 +23,7 @@ export function WorkSection() {
     present: [
       {
         title: "Hyperspell (Y Combinator F25)",
-        role: "data science intern and growth lead",
+        role: "data & growth",
         period: "Aug 2024 – Present",
         description:
           "owned growth and product for a yc-backed developer tools startup. built demo apps (memoirly for semantic search, flexed for fitness tracking, calendar integrations) to show developers what they could build with the platform. wrote all the documentation, blogs, and onboarding content - recorded tutorial videos showing people how to start querying their data in under five minutes. ran experiments on the onboarding flow to figure out where people were getting stuck. instrumented analytics to track what integrations developers actually used and which ones drove retention. worked directly with the team on product decisions - what to build next, how to position features, which partnerships made sense. also did a lot of the early growth work: managing content calendar, coordinating product hunt strategy, writing thought leadership posts, setting up customer spotlights. learned how to wear multiple hats at an early-stage startup - you build the thing, write about it, figure out how to grow it, and iterate based on what's actually working.",
@@ -183,7 +183,7 @@ export function WorkSection() {
                   project={project}
                   index={i}
                   isVisible={isVisible}
-                  onSelect={() => hasImages && setSelectedProject({ tab: activeTab, index: i })}
+                  onSelect={() => setSelectedProject({ tab: activeTab, index: i })}
                   hasImages={hasImages}
                   hidePreview={hidePreview}
                 />
@@ -235,16 +235,6 @@ function ProjectCard({
   hasImages: boolean
   hidePreview: boolean
 }) {
-  const [showFull, setShowFull] = useState(false)
-
-  const handleClick = () => {
-    if (hasImages) {
-      onSelect()
-    } else {
-      setShowFull((s) => !s)
-    }
-  }
-
   return (
     <div
       className={`group border-l-2 border-foreground/20 pl-5 transition-all duration-700 hover:border-foreground/40 md:pl-6 ${
@@ -275,23 +265,16 @@ function ProjectCard({
         </div>
 
         {!hidePreview && (
-          <p
-            className={`max-w-2xl text-sm leading-relaxed text-foreground/75 transition-all ${
-              showFull ? "line-clamp-none" : "line-clamp-1"
-            }`}
-          >
+          <p className="max-w-2xl text-sm leading-relaxed text-foreground/75 line-clamp-2">
             {project.description}
           </p>
         )}
-        {hidePreview && showFull && (
-          <p className="max-w-2xl text-sm leading-relaxed text-foreground/75">{project.description}</p>
-        )}
 
         <button
-          onClick={handleClick}
+          onClick={onSelect}
           className="inline-flex items-center gap-2 text-left font-mono text-xs text-foreground/50 transition-all duration-200 hover:text-foreground/80"
         >
-          {hasImages ? "read more ↓" : showFull ? "show less ↑" : "read more ↓"}
+          read more ↓
         </button>
       </div>
     </div>
@@ -311,7 +294,7 @@ function ProjectDetail({
 
   return (
     <div
-      className={`grid gap-8 md:grid-cols-[1.05fr_0.95fr] items-start pb-6 transition-all duration-700 ${
+      className={`grid gap-8 md:grid-cols-[1.5fr_1fr] items-start pb-6 transition-all duration-700 ${
         isVisible ? "opacity-100" : "opacity-0"
       }`}
     >
@@ -342,19 +325,20 @@ function ProjectDetail({
           </div>
         </div>
 
-        <p className="max-w-3xl text-base leading-relaxed text-foreground/85 md:text-lg">{project.description}</p>
+        <p className="text-base leading-relaxed text-foreground/85 md:text-lg">{project.description}</p>
       </div>
 
       {project.images && project.images.length > 0 && (
         <div className="relative">
-          {project.title === "Hyperspell (YC F25)" ? (
-            <div className="grid grid-cols-2 gap-3 rounded-2xl overflow-hidden shadow-[0_12px_60px_-28px_rgba(0,0,0,0.45)] max-h-[250px]">
-              {project.images.slice(0, 4).map((img) => (
-                <div key={img} className="relative aspect-[3/4] overflow-hidden">
+          {project.title === "Hyperspell (Y Combinator F25)" ? (
+            <div className="flex flex-col gap-3">
+              {project.images.map((img) => (
+                <div key={img} className="relative overflow-hidden rounded-2xl shadow-[0_12px_60px_-28px_rgba(0,0,0,0.45)]">
                   <img
                     src={img}
                     alt={project.title}
-                    className="h-full w-full object-cover object-center animate-in fade-in duration-500"
+                    className="w-full object-cover object-center animate-in fade-in duration-500"
+                    style={{ aspectRatio: "3/2" }}
                   />
                   <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/25 via-transparent to-transparent" />
                 </div>
