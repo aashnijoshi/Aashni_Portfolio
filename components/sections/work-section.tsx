@@ -22,11 +22,11 @@ export function WorkSection() {
   const experiences: Record<Tab, Project[]> = {
     present: [
       {
-        title: "Hyperspell (YC F25)",
-        role: "data and growth",
+        title: "Hyperspell (Y Combinator F25)",
+        role: "data science intern and growth lead",
         period: "Aug 2024 – Present",
         description:
-          "founding team member at an ai infrastructure startup. i've worked across product and engineering, helped run events, and learned what it means to build with users in mind from day one.",
+          "owned growth and product for a yc-backed developer tools startup. built demo apps (memoirly for semantic search, flexed for fitness tracking, calendar integrations) to show developers what they could build with the platform. wrote all the documentation, blogs, and onboarding content - recorded tutorial videos showing people how to start querying their data in under five minutes. ran experiments on the onboarding flow to figure out where people were getting stuck. instrumented analytics to track what integrations developers actually used and which ones drove retention. worked directly with the team on product decisions - what to build next, how to position features, which partnerships made sense. also did a lot of the early growth work: managing content calendar, coordinating product hunt strategy, writing thought leadership posts, setting up customer spotlights. learned how to wear multiple hats at an early-stage startup - you build the thing, write about it, figure out how to grow it, and iterate based on what's actually working.",
         link: "https://www.hyperspell.com/",
         images: ["/hyperspell1.jpeg", "/hyperspell2.jpeg"],
       },
@@ -46,31 +46,31 @@ export function WorkSection() {
         role: "data science intern",
         period: "May 2024 – Aug 2024",
         description:
-          "worked on an ai-powered form pipeline to help streamline application workflows for students in india. focused on accessibility, clarity, and reducing friction.",
+          "worked on two projects trying to use ai to solve real problems in indian education. first was digiform - an ocr tool to automate college application forms. indian students spend hours manually filling out repetitive forms for different colleges, so we built a prototype using openai's api to extract info and auto-fill applications. built the whole stack - react frontend, flask backend, python for the ocr pipeline. it generated a pdf with all the student's info already filled in. worked on the product strategy and helped figure out go-to-market - who would actually pay for this, how to get it in front of students, what the business model looked like. also co-led the ed-tech track focused on teacher tools. most edtech in india is student-focused, but teachers are overworked and drowning in administrative work. we were exploring ai tools for lesson planning, attendance, quiz creation and grading - all multilingual since teachers work with students across different dialects. spent a lot of time on market research, talking to actual teachers to understand their pain points. learned how to build for users in a completely different context than silicon valley - different infrastructure, different needs, different willingness to pay. also got better at early-stage product work - going from problem to prototype to figuring out if anyone would actually use it.",
         link: "https://peopleplus.ai/",
       },
       {
-        title: "NASA Ames Research Center",
-        role: "technical project manager",
+        title: "NASA Ames Research Center – NewSpace@Berkeley",
+        role: "technical project manager (data & modeling)",
         period: "Aug 2024 – May 2025",
         description:
-          "worked on feasibility analysis for in-space assembly and manufacturing. this was my first exposure to space systems thinking and large-scale technical tradeoffs.",
+          "led economic analysis for nasa's in-space manufacturing opportunities. read through tons of technical and market reports, built financial models to evaluate different payload scenarios. used monte carlo simulations and sensitivity analysis to help nasa understand which directions made sense for their long-term roadmap. learned how to work on projects with really long timelines and high stakes. also got better at presenting technical findings to people who need the insights but don't need to see the math - translating analysis into decisions.",
         link: "https://www.nasa.gov/ames",
       },
       {
-        title: "Stanford XLab",
+        title: "Stanford University",
         role: "data science intern",
         period: "Jan 2024 – May 2024",
         description:
-          "collaborated with researchers to build Excel models synthesizing semiconductor market data from 20+ interviews. developed an AI-powered research chatbot with curated knowledge base.",
+          "built a semantic search system for semiconductor researchers. indexed thousands of research papers using embeddings so domain experts could find relevant work faster. benchmarked the retrieval quality, worked with actual users to validate results and iterate on what mattered. turned findings into research briefs that informed what the lab prioritized next. learned the gap between building something that works technically versus building something researchers actually use in their workflow.",
         link: "https://xlab.stanford.edu/",
       },
       {
-        title: "Vast",
-        role: "research intern",
-        period: "Jan 2024 – May 2024",
+        title: "Vast Space",
+        role: "data science intern",
+        period: "Aug 2023 – May 2024",
         description:
-          "contributed to research and analysis around space infrastructure and long-term human presence in orbit. learned a lot about systems-level thinking and collaboration across disciplines.",
+          "built financial models for commercial space station economics. developed python simulation tools to model different revenue scenarios and cost structures. learned how to think about uncertainty when you're dealing with ventures that are inherently speculative - how to communicate projections in a way that's honest about what we know and don't know.",
         link: "https://www.vastspace.com/",
         images: ["/vast%20Medium.jpeg"],
       },
@@ -136,7 +136,7 @@ export function WorkSection() {
             isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"
           }`}
         >
-          <h2 className="mb-2 font-serif text-4xl font-normal tracking-tight text-foreground sm:text-5xl md:text-6xl lg:text-7xl">
+          <h2 className="mb-2 font-serif text-5xl font-normal tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
             things i've worked on
           </h2>
           <p className="font-mono text-sm text-foreground/60 md:text-base">/ projects & experiences</p>

@@ -300,7 +300,7 @@ export default function Home() {
         {/* Hero Section */}
         <section className="relative flex min-h-screen w-full items-end justify-between px-4 pb-8 pt-16 sm:px-6 sm:pb-12 sm:pt-20 md:shrink-0 md:px-12 md:pb-24 md:pt-24 lg:px-16">
           {/* Mobile Profile Picture - Top Right */}
-          <div className="absolute right-4 top-20 h-24 w-24 shrink-0 overflow-hidden rounded-full sm:right-6 md:hidden">
+          <div className="absolute right-10 top-32 h-32 w-32 shrink-0 overflow-hidden rounded-full sm:right-16 sm:top-36 sm:h-36 sm:w-36 md:hidden">
             <img
               src="/myphotoforfirstpage.jpg"
               alt="Aashni Joshi"
@@ -309,7 +309,7 @@ export default function Home() {
           </div>
 
           <div className="max-w-4xl pb-6">
-            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-serif text-6xl font-normal leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-7xl md:text-7xl lg:text-8xl xl:text-9xl">
+            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-serif text-7xl font-normal leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-8xl md:text-9xl lg:text-9xl xl:text-9xl">
               <span className="text-balance">Aashni Joshi</span>
             </h1>
             <p className="mb-6 max-w-2xl animate-in fade-in slide-in-from-bottom-4 text-base leading-relaxed text-foreground/90 duration-1000 delay-200 sm:mb-8 sm:text-lg md:text-xl">
