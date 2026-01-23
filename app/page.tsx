@@ -309,7 +309,7 @@ export default function Home() {
           </div>
 
           <div className="max-w-4xl pb-6">
-            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-serif text-7xl font-normal leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-8xl md:text-8xl lg:text-9xl xl:text-9xl">
+            <h1 className="mb-6 animate-in fade-in slide-in-from-bottom-8 font-serif text-7xl font-normal leading-[1.1] tracking-tight text-foreground duration-1000 sm:text-8xl md:text-9xl lg:text-9xl xl:text-9xl">
               <span className="text-balance">Aashni Joshi</span>
             </h1>
             <p className="mb-6 max-w-2xl animate-in fade-in slide-in-from-bottom-4 text-base leading-relaxed text-foreground/90 duration-1000 delay-200 sm:mb-8 sm:text-lg md:text-xl">
