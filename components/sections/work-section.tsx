@@ -91,7 +91,7 @@ export function WorkSection() {
         role: "personal project",
         period: "2025",
         description:
-          "a project exploring how devrel teams can spend less time on busywork and more time connecting with developers.",
+          "built an ai copilot for developer relations work. devrel involves tons of repetitive tasks - answering the same questions in discord, writing documentation, creating example code, tracking community feedback. wanted to see if i could automate most of it. designed the whole system - set up evaluation metrics to measure agent quality, gathered feedback from pilot users, ran experiments to figure out which features people used. built it in python and react, integrated with openai's apis.",
         link: "https://www.loom.com/share/dc8f66372bb546c1b204e2a21c2ed44c",
       },
       {
@@ -99,7 +99,7 @@ export function WorkSection() {
         role: "personal project",
         period: "2025",
         description:
-          "a small project exploring how to make workouts feel less rigid and more adaptable to real life. built as a way to learn and experiment.",
+          "fitness tracking app built the way i wanted it to work. most apps are either too complicated or too simple - i just wanted something that let me log workouts quickly and see progress over time. built it with react and deployed on vercel. integrated with google calendar so workouts show up in my schedule. focused on making the ui feel fast and minimal - no loading states, no unnecessary clicks. building for yourself is way easier than building for hypothetical users because you know exactly what's annoying.",
         link: "https://github.com/aashnijoshi/flexed-app?tab=readme-ov-file",
       },
       {
@@ -107,7 +107,7 @@ export function WorkSection() {
         role: "personal project",
         period: "2022",
         description:
-          "built a simulation to model orbital mechanics and spacecraft trajectories. got to combine physics and code in a fun way.",
+          "built an n-body simulator to model planetary motion. wanted to see if i could get accurate predictions just from first principles physics - gravity, initial conditions, numerical integration. ran monte carlo simulations to test accuracy against nasa's planetary data. got it working reliably - the math checks out when you implement it carefully. used python for the physics calculations and react for the visualization. did this because i was obsessed with orbital mechanics and wanted to understand it by building it from scratch.",
         link: "https://github.com/aashnijoshi/Planets-Simulation",
       },
       {
@@ -115,7 +115,7 @@ export function WorkSection() {
         role: "author",
         period: "2022",
         description:
-          "authored a science novel on making cosmology feel approachable, clear, and fun for anyone curious about the universe.",
+          "wrote a science book explaining astrophysics without dumbing it down but also without assuming you have a physics degree. covered everything from basic stellar physics to black holes to cosmology. the idea was to write the book i wished existed when i was first getting into astrophysics - rigorous enough to teach you something, but accessible enough that you don't need to stop every paragraph to look things up. learned that explaining complex things clearly is way harder than understanding them yourself. had to completely rethink how i understood concepts to figure out how to teach them.",
         link: "https://www.amazon.com/Universe-But-This-Time-Understand/dp/B0BHZR3STD?nsdOptOutParam=true&sr=8-1",
       },
     ],
