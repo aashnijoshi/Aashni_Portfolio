@@ -1,362 +1,225 @@
 "use client"
 
-import { useReveal } from "@/hooks/use-reveal"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
+import { ImageCarousel } from "@/components/ui/image-carousel"
 
-type Project = {
-  title: string
+type TimelineEntry = {
+  slug: string // matches public/images/work/<slug>/
+  company: string
   role: string
   period: string
+  tagline?: string
   description: string
-  link: string
-  images?: string[]
+  link?: string
 }
 
-export function WorkSection() {
-  const { ref, isVisible } = useReveal(0.3)
-  const tabs = ["past", "present", "future", "side-quests"] as const
-  type Tab = (typeof tabs)[number]
-  const [activeTab, setActiveTab] = useState<Tab>("present")
-  const [selectedProject, setSelectedProject] = useState<{ tab: Tab; index: number } | null>(null)
+const entries: TimelineEntry[] = [
+  {
+    slug: "hyperspell",
+    company: "Hyperspell (YC F25)",
+    role: "Founding Data Engineer",
+    period: "Aug 2024 to Present",
+    tagline: "Employee #1",
+    description:
+      "Employee #1 at Hyperspell, a YC F25 AI infrastructure startup building context and memory for AI agents. Backed by Pioneer Fund, Afore, and a16z Speedrun. Worked across engineering and product, focusing on MCP and memory graphs for AI agents.",
+    link: "https://www.hyperspell.com/",
+  },
+  {
+    slug: "nasa-ames",
+    company: "NASA Ames Research Center",
+    role: "Technical Project Manager",
+    period: "Aug 2024 to May 2025",
+    description:
+      "Led a 6-person Berkeley team on an ISAM feasibility study for NASA's in-space servicing, assembly, and manufacturing roadmap. Modeled the economics of hybrid Earth and in-orbit satellite manufacturing.",
+    link: "https://www.nasa.gov/ames",
+  },
+  {
+    slug: "stanford-xlab",
+    company: "Stanford University, Extreme Environment Microsystems Lab",
+    role: "CS Researcher",
+    period: "Jan 2024 to May 2024",
+    description:
+      "Built a RAG pipeline over dense semiconductor research literature so the lab could pull answers out of 100+ papers without losing traceability. Spent most of my time on chunking strategy and grounding, not on the model.",
+    link: "https://xlab.stanford.edu/",
+  },
+  {
+    slug: "people-ai",
+    company: "People+AI",
+    role: "AI Engineer Intern",
+    period: "May 2024 to Aug 2024",
+    description:
+      "Built DigiForm, an OCR and LLM pipeline that digitized handwritten Indian college applications. Also prototyped lesson planning tools for teachers in low-bandwidth schools.",
+    link: "https://peopleplus.ai/",
+  },
+  {
+    slug: "vast-space",
+    company: "Vast Space",
+    role: "Data Science Intern",
+    period: "Aug 2022 to May 2023",
+    description:
+      "Analyzed the LEO economy to surface academic payload opportunities for Haven-1. Built the revenue and ROI models that went into the business development deck.",
+    link: "https://www.vastspace.com/",
+  },
+]
 
-  const experiences: Record<Tab, Project[]> = {
-    present: [
-      {
-        title: "Hyperspell (Y Combinator F25)",
-        role: "data & growth",
-        period: "Aug 2024 – Present",
-        description:
-          "owned growth and product for a yc-backed developer tools startup. built demo apps (memoirly for semantic search, flexed for fitness tracking, calendar integrations) to show developers what they could build with the platform. wrote all the documentation, blogs, and onboarding content - recorded tutorial videos showing people how to start querying their data in under five minutes. ran experiments on the onboarding flow to figure out where people were getting stuck. instrumented analytics to track what integrations developers actually used and which ones drove retention. worked directly with the team on product decisions - what to build next, how to position features, which partnerships made sense. also did a lot of the early growth work: managing content calendar, coordinating product hunt strategy, writing thought leadership posts, setting up customer spotlights. learned how to wear multiple hats at an early-stage startup - you build the thing, write about it, figure out how to grow it, and iterate based on what's actually working.",
-        link: "https://www.hyperspell.com/",
-        images: ["/hyperspell1.jpeg", "/hyperspell2.jpeg"],
-      },
-    ],
-    past: [
-      {
-        title: "Astreas",
-        role: "data science intern",
-        period: "Jan 2025 – May 2025",
-        description:
-          "worked on building the foundation for a pre-launch product. focused on user feedback and growing early interest.",
-        link: "https://astreas.co/",
-        images: ["/astreas.jpeg"],
-      },
-      {
-        title: "People+ai",
-        role: "data science intern",
-        period: "May 2024 – Aug 2024",
-        description:
-          "worked on two projects trying to use ai to solve real problems in indian education. first was digiform - an ocr tool to automate college application forms. indian students spend hours manually filling out repetitive forms for different colleges, so we built a prototype using openai's api to extract info and auto-fill applications. built the whole stack - react frontend, flask backend, python for the ocr pipeline. it generated a pdf with all the student's info already filled in. worked on the product strategy and helped figure out go-to-market - who would actually pay for this, how to get it in front of students, what the business model looked like. also co-led the ed-tech track focused on teacher tools. most edtech in india is student-focused, but teachers are overworked and drowning in administrative work. we were exploring ai tools for lesson planning, attendance, quiz creation and grading - all multilingual since teachers work with students across different dialects. spent a lot of time on market research, talking to actual teachers to understand their pain points. learned how to build for users in a completely different context than silicon valley - different infrastructure, different needs, different willingness to pay. also got better at early-stage product work - going from problem to prototype to figuring out if anyone would actually use it.",
-        link: "https://peopleplus.ai/",
-      },
-      {
-        title: "NASA Ames Research Center – NewSpace@Berkeley",
-        role: "technical project manager (data & modeling)",
-        period: "Aug 2024 – May 2025",
-        description:
-          "led economic analysis for nasa's in-space manufacturing opportunities. read through tons of technical and market reports, built financial models to evaluate different payload scenarios. used monte carlo simulations and sensitivity analysis to help nasa understand which directions made sense for their long-term roadmap. learned how to work on projects with really long timelines and high stakes. also got better at presenting technical findings to people who need the insights but don't need to see the math - translating analysis into decisions.",
-        link: "https://www.nasa.gov/ames",
-      },
-      {
-        title: "Stanford University",
-        role: "data science intern",
-        period: "Jan 2024 – May 2024",
-        description:
-          "built a semantic search system for semiconductor researchers. indexed thousands of research papers using embeddings so domain experts could find relevant work faster. benchmarked the retrieval quality, worked with actual users to validate results and iterate on what mattered. turned findings into research briefs that informed what the lab prioritized next. learned the gap between building something that works technically versus building something researchers actually use in their workflow.",
-        link: "https://xlab.stanford.edu/",
-      },
-      {
-        title: "Vast Space",
-        role: "data science intern",
-        period: "Aug 2023 – May 2024",
-        description:
-          "built financial models for commercial space station economics. developed python simulation tools to model different revenue scenarios and cost structures. learned how to think about uncertainty when you're dealing with ventures that are inherently speculative - how to communicate projections in a way that's honest about what we know and don't know.",
-        link: "https://www.vastspace.com/",
-        images: ["/vast%20Medium.jpeg"],
-      },
-    ],
-    future: [
-      {
-        title: "looking ahead",
-        role: "open to opportunities",
-        period: "Summer 2026",
-        description:
-          "exploring what's next—whether that's internships, research, or projects that let me learn something new. interested in anything at the intersection of ai infrastructure, tools for builders, or thoughtful product work.",
-        link: "",
-      },
-    ],
-    "side-quests": [
-      {
-        title: "Axion",
-        role: "personal project",
-        period: "2025",
-        description:
-          "built an ai copilot for developer relations work. devrel involves tons of repetitive tasks - answering the same questions in discord, writing documentation, creating example code, tracking community feedback. wanted to see if i could automate most of it. designed the whole system - set up evaluation metrics to measure agent quality, gathered feedback from pilot users, ran experiments to figure out which features people used. built it in python and react, integrated with openai's apis.",
-        link: "https://www.loom.com/share/dc8f66372bb546c1b204e2a21c2ed44c",
-      },
-      {
-        title: "flexed",
-        role: "personal project",
-        period: "2025",
-        description:
-          "fitness tracking app built the way i wanted it to work. most apps are either too complicated or too simple - i just wanted something that let me log workouts quickly and see progress over time. built it with react and deployed on vercel. integrated with google calendar so workouts show up in my schedule. focused on making the ui feel fast and minimal - no loading states, no unnecessary clicks. building for yourself is way easier than building for hypothetical users because you know exactly what's annoying.",
-        link: "https://github.com/aashnijoshi/flexed-app?tab=readme-ov-file",
-      },
-      {
-        title: "orbital dynamics simulation",
-        role: "personal project",
-        period: "2022",
-        description:
-          "built an n-body simulator to model planetary motion. wanted to see if i could get accurate predictions just from first principles physics - gravity, initial conditions, numerical integration. ran monte carlo simulations to test accuracy against nasa's planetary data. got it working reliably - the math checks out when you implement it carefully. used python for the physics calculations and react for the visualization. did this because i was obsessed with orbital mechanics and wanted to understand it by building it from scratch.",
-        link: "https://github.com/aashnijoshi/Planets-Simulation",
-      },
-      {
-        title: "The Universe, But This Time You Understand It",
-        role: "author",
-        period: "2022",
-        description:
-          "wrote a science book explaining astrophysics without dumbing it down but also without assuming you have a physics degree. covered everything from basic stellar physics to black holes to cosmology. the idea was to write the book i wished existed when i was first getting into astrophysics - rigorous enough to teach you something, but accessible enough that you don't need to stop every paragraph to look things up. learned that explaining complex things clearly is way harder than understanding them yourself. had to completely rethink how i understood concepts to figure out how to teach them.",
-        link: "https://www.amazon.com/Universe-But-This-Time-Understand/dp/B0BHZR3STD?nsdOptOutParam=true&sr=8-1",
-      },
-    ],
-  }
+type WorkSectionProps = {
+  imagesBySlug?: Record<string, string[]>
+}
+
+export function WorkSection({ imagesBySlug }: WorkSectionProps = {}) {
+  const sectionRef = useRef<HTMLElement>(null)
+  const [ruleProgress, setRuleProgress] = useState(0)
 
   useEffect(() => {
-    setSelectedProject(null)
-  }, [activeTab])
+    let frame = 0
+    const update = () => {
+      frame = 0
+      const el = sectionRef.current
+      if (!el) return
+      const rect = el.getBoundingClientRect()
+      const viewportMid = window.innerHeight * 0.55
+      // Progress: 0 when section top hits viewport mid, 1 when section bottom hits viewport mid.
+      const p = (viewportMid - rect.top) / rect.height
+      setRuleProgress(Math.max(0, Math.min(1, p)))
+    }
+    const onScroll = () => {
+      if (frame) return
+      frame = requestAnimationFrame(update)
+    }
+    update()
+    window.addEventListener("scroll", onScroll, { passive: true })
+    window.addEventListener("resize", onScroll, { passive: true })
+    return () => {
+      window.removeEventListener("scroll", onScroll)
+      window.removeEventListener("resize", onScroll)
+      if (frame) cancelAnimationFrame(frame)
+    }
+  }, [])
 
   return (
     <section
-      ref={ref}
-      className="flex min-h-screen w-full snap-start items-center px-4 pb-6 pt-24 sm:px-6 sm:pb-8 sm:pt-28 md:h-screen md:shrink-0 md:px-12 md:pb-10 md:pt-28 lg:px-16"
+      ref={sectionRef}
+      id="work"
+      className="relative w-full px-6 py-24 md:px-12 md:py-32 lg:px-16"
     >
-      <div className="mx-auto h-full w-full max-w-7xl flex flex-col">
-        <div
-          className={`mb-6 md:mb-8 transition-all duration-700 ${
-            isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"
-          }`}
-        >
-          <h2 className="mb-2 font-serif text-5xl font-normal tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
-            things i've worked on
+      <div className="mx-auto w-full max-w-6xl">
+        <header className="mb-16 md:mb-24">
+          <h2 className="mb-2 font-serif text-4xl font-normal tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            Work
           </h2>
-          <p className="font-mono text-sm text-foreground/60 md:text-base">/ projects & experiences</p>
-        </div>
+          <p className="font-mono text-sm text-foreground/60 md:text-base">/ Where I've been</p>
+        </header>
 
-        <div className="mb-6 flex gap-4 border-b border-foreground/10 md:gap-6">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`relative pb-3 font-serif text-base transition-colors md:text-lg ${
-                activeTab === tab ? "text-foreground" : "text-foreground/40 hover:text-foreground/70"
-              }`}
-            >
-              {tab === "side-quests" ? "side quests" : tab}
-              {activeTab === tab && (
-                <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-foreground transition-all duration-300" />
-              )}
-            </button>
-          ))}
-        </div>
-
-        <div
-          className="flex-1 pr-2 md:overflow-y-auto md:scrollbar-thin md:scrollbar-thumb-foreground/20 md:scrollbar-track-transparent md:max-h-[calc(100vh-280px)]"
-        >
-        {selectedProject && selectedProject.tab === activeTab ? (
-          <ProjectDetail
-            project={experiences[activeTab][selectedProject.index]}
-            onBack={() => setSelectedProject(null)}
-            isVisible={isVisible}
-          />
-        ) : (
+        <div className="relative">
+          {/* Background rule */}
           <div
-            className={
-              activeTab === "past" ? "grid md:grid-cols-2 gap-6 pb-6 work-scroll" : "space-y-4 md:space-y-5 pb-6 work-scroll"
-            }
-          >
-            {experiences[activeTab].map((project, i) => {
-              const hasImages = Boolean(project.images && project.images.length > 0)
-              const hidePreview = activeTab === "side-quests"
-              return (
-                <ProjectCard
-                  key={i}
-                  project={project}
-                  index={i}
-                  isVisible={isVisible}
-                  onSelect={() => setSelectedProject({ tab: activeTab, index: i })}
-                  hasImages={hasImages}
-                  hidePreview={hidePreview}
-                />
-              )
-            })}
-          </div>
-        )}
+            aria-hidden
+            className="absolute top-0 bottom-0 left-[11px] md:left-[15px] w-px bg-foreground/15"
+          />
+          {/* Foreground scroll-drawn rule */}
+          <div
+            aria-hidden
+            className="absolute top-0 left-[11px] md:left-[15px] w-px bg-foreground/60 transition-[height] duration-150 ease-out"
+            style={{ height: `${ruleProgress * 100}%` }}
+          />
+
+          <ol className="space-y-16 md:space-y-24">
+            {entries.map((entry, i) => (
+              <TimelineItem
+                key={entry.slug}
+                entry={entry}
+                index={i}
+                images={imagesBySlug?.[entry.slug] ?? []}
+              />
+            ))}
+          </ol>
         </div>
       </div>
-      <style jsx global>{`
-        .work-scroll::-webkit-scrollbar {
-          width: 10px;
-        }
-        .work-scroll::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .work-scroll::-webkit-scrollbar-thumb {
-          background: rgba(120, 120, 130, 0.35);
-          border-radius: 9999px;
-          border: 2px solid transparent;
-          background-clip: content-box;
-        }
-        .work-scroll::-webkit-scrollbar-thumb:hover {
-          background: rgba(120, 120, 130, 0.55);
-          border: 2px solid transparent;
-          background-clip: content-box;
-        }
-        .work-scroll {
-          scrollbar-color: rgba(120, 120, 130, 0.35) transparent;
-          scrollbar-width: thin;
-        }
-      `}</style>
     </section>
   )
 }
 
-function ProjectCard({
-  project,
+function TimelineItem({
+  entry,
   index,
-  isVisible,
-  onSelect,
-  hasImages,
-  hidePreview,
+  images,
 }: {
-  project: Project
+  entry: TimelineEntry
   index: number
-  isVisible: boolean
-  onSelect: () => void
-  hasImages: boolean
-  hidePreview: boolean
+  images: string[]
 }) {
-  return (
-    <div
-      className={`group border-l-2 border-foreground/20 pl-5 transition-all duration-700 hover:border-foreground/40 md:pl-6 ${
-        isVisible ? "translate-x-0 opacity-100" : "-translate-x-12 opacity-0"
-      }`}
-      style={{
-        transitionDelay: `${index * 100}ms`,
-      }}
-    >
-      <div className="flex flex-col gap-2">
-        <div className="flex items-baseline gap-3">
-          {project.link ? (
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline decoration-foreground/30 underline-offset-4 font-serif text-xl font-normal text-foreground transition-all duration-300 hover:text-foreground/70 hover:decoration-foreground/50 md:text-2xl lg:text-3xl"
-            >
-              {project.title}
-            </a>
-          ) : (
-            <h3 className="font-serif text-xl font-normal text-foreground md:text-2xl lg:text-3xl">{project.title}</h3>
-          )}
-        </div>
-        <div className="flex items-baseline gap-3">
-          <span className="font-mono text-xs text-foreground/50 md:text-sm">{project.role}</span>
-          <span className="font-mono text-xs text-foreground/40">{project.period}</span>
-        </div>
+  const ref = useRef<HTMLLIElement>(null)
+  const [visible, setVisible] = useState(false)
 
-        {!hidePreview && (
-          <p className="max-w-2xl text-sm leading-relaxed text-foreground/75 line-clamp-2">
-            {project.description}
-          </p>
-        )}
-
-        <button
-          onClick={onSelect}
-          className="inline-flex items-center gap-2 text-left font-mono text-xs text-foreground/50 transition-all duration-200 hover:text-foreground/80"
-        >
-          read more ↓
-        </button>
-      </div>
-    </div>
-  )
-}
-
-function ProjectDetail({
-  project,
-  onBack,
-  isVisible,
-}: {
-  project: Project
-  onBack: () => void
-  isVisible: boolean
-}) {
-  const hasMultiple = project.images && project.images.length > 1
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const obs = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) setVisible(true)
+      },
+      { threshold: 0.25, rootMargin: "0px 0px -10% 0px" },
+    )
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
 
   return (
-    <div
-      className={`grid gap-8 md:grid-cols-[1.5fr_1fr] items-start pb-6 transition-all duration-700 ${
-        isVisible ? "opacity-100" : "opacity-0"
+    <li
+      ref={ref}
+      className={`relative pl-10 md:pl-14 transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
       }`}
+      style={{ transitionDelay: `${Math.min(index * 80, 320)}ms` }}
     >
-      <div className="flex flex-col gap-4">
-        <button
-          onClick={onBack}
-          className="w-fit rounded-full border border-foreground/15 px-3 py-1 text-xs font-mono text-foreground/60 transition-colors hover:border-foreground/30 hover:text-foreground/90"
-        >
-          ← back to list
-        </button>
+      {/* Node on the rule */}
+      <span
+        aria-hidden
+        className={`absolute left-[5px] md:left-[9px] top-2 h-3.5 w-3.5 rounded-full bg-foreground transition-all duration-500 ease-out ${
+          visible
+            ? "scale-110 shadow-[0_0_14px_3px_rgba(255,182,193,0.45)]"
+            : "scale-90 shadow-none"
+        }`}
+      />
 
-        <div className="space-y-2">
-          {project.link ? (
-            <a
-              href={project.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline decoration-foreground/30 underline-offset-4 font-serif text-3xl font-normal text-foreground transition-all duration-300 hover:text-foreground/70 hover:decoration-foreground/50 md:text-4xl lg:text-5xl"
-            >
-              {project.title}
-            </a>
-          ) : (
-            <h3 className="font-serif text-3xl font-normal text-foreground md:text-4xl lg:text-5xl">{project.title}</h3>
-          )}
-          <div className="flex items-baseline gap-3">
-            <span className="font-mono text-xs text-foreground/60 md:text-sm">{project.role}</span>
-            <span className="font-mono text-xs text-foreground/40">{project.period}</span>
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <h3 className="font-serif text-2xl font-normal leading-tight text-foreground md:text-3xl">
+            <span>{entry.role}</span>
+            <span className="text-foreground/60">
+              , {entry.link ? (
+                <a
+                  href={entry.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline decoration-foreground/25 underline-offset-4 transition-colors hover:text-foreground hover:decoration-foreground/60"
+                >
+                  {entry.company}
+                </a>
+              ) : (
+                entry.company
+              )}
+            </span>
+          </h3>
+        </div>
+        <p className="mt-1 font-mono text-xs text-foreground/55 md:text-sm">
+          {entry.period}
+          {entry.tagline ? <span className="text-foreground/40"> · {entry.tagline}</span> : null}
+        </p>
+        <p className="mt-4 max-w-2xl text-sm leading-relaxed text-foreground/80 md:text-base">
+          {entry.description}
+        </p>
+
+        {images.length > 0 && (
+          <div className="mt-6 max-w-2xl md:mt-7">
+            <ImageCarousel
+              images={images}
+              alt={`${entry.company} — ${entry.role}`}
+              size="compact"
+            />
           </div>
-        </div>
-
-        <p className="text-base leading-relaxed text-foreground/85 md:text-lg">{project.description}</p>
+        )}
       </div>
-
-      {project.images && project.images.length > 0 && (
-        <div className="relative">
-          {project.title === "Hyperspell (Y Combinator F25)" ? (
-            <div className="flex flex-col gap-3">
-              {project.images.map((img) => (
-                <div key={img} className="relative overflow-hidden rounded-2xl shadow-[0_12px_60px_-28px_rgba(0,0,0,0.45)]">
-                  <img
-                    src={img}
-                    alt={project.title}
-                    className="w-full object-cover object-center animate-in fade-in duration-500"
-                    style={{ aspectRatio: "3/2" }}
-                  />
-                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/25 via-transparent to-transparent" />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="relative overflow-hidden rounded-2xl shadow-[0_12px_60px_-28px_rgba(0,0,0,0.45)] max-w-[200px]">
-              <img
-                src={project.images[0]}
-                alt={project.title}
-                className="h-full w-full object-cover object-center animate-in fade-in slide-in-from-right-6 duration-500"
-                style={{ aspectRatio: "3/4" }}
-              />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/25 via-transparent to-transparent" />
-            </div>
-          )}
-        </div>
-      )}
-    </div>
+    </li>
   )
 }

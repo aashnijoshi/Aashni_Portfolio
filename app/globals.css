@@ -124,34 +124,19 @@
     @apply border-border outline-ring/50;
     cursor: none;
   }
-
   html {
+    scroll-behavior: smooth;
     /* Ensure consistent sizing across different browsers and zoom levels */
     font-size: 16px;
     text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
     -moz-text-size-adjust: 100%;
   }
-
   body {
     @apply bg-background text-foreground;
     /* Prevent layout shifts on different zoom levels */
     min-height: 100vh;
     min-height: 100dvh;
-  }
-
-  [data-scroll-container] {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-  }
-
-  section {
-    transform: translateZ(0);
-    will-change: transform;
-    contain: layout style paint;
   }
 
   button {
@@ -177,4 +162,25 @@
       font-size: 14px;
     }
   }
+}
+
+/* Orbital divider — gentle dot pulse, offset between the two dots. */
+@keyframes orbital-pulse-a {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+@keyframes orbital-pulse-b {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.22); }
+}
+.orbital-pulse-a {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: orbital-pulse-a 2.6s ease-in-out infinite;
+}
+.orbital-pulse-b {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: orbital-pulse-b 3.1s ease-in-out infinite;
+  animation-delay: -1.3s;
 }
