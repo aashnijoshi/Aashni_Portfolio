@@ -66,7 +66,7 @@ export function CustomCursor() {
     <>
       <div
         ref={cursorRef}
-        className="pointer-events-none fixed left-0 top-0 z-50 will-change-transform"
+        className="pointer-events-none fixed left-0 top-0 z-50 hidden will-change-transform md:block"
         style={{ contain: "layout style paint" }}
       >
         <svg
