@@ -9,9 +9,10 @@ export function ContactSection() {
   return (
     <section
       ref={ref}
-      className="flex h-screen w-screen shrink-0 snap-start items-center px-4 pt-20 md:px-12 md:pt-0 lg:px-16"
+      id="contact"
+      className="flex min-h-screen w-full items-center px-6 py-24 md:px-12 md:py-32 lg:px-16"
     >
-      <div className="mx-auto w-full max-w-7xl">
+      <div className="mx-auto w-full max-w-6xl">
         <div className="grid gap-8 md:grid-cols-[1.2fr_1fr] md:gap-16 lg:gap-24">
           <div className="flex flex-col justify-center">
             <div
@@ -20,11 +21,11 @@ export function ContactSection() {
               }`}
             >
               <h2 className="mb-2 font-serif text-4xl font-normal leading-[1.05] tracking-tight text-foreground md:mb-3 md:text-7xl lg:text-8xl">
-                let's
+                Let's
                 <br />
                 chat
               </h2>
-              <p className="font-mono text-xs text-foreground/60 md:text-base">/ get in touch</p>
+              <p className="font-mono text-xs text-foreground/60 md:text-base">/ Get in touch</p>
             </div>
 
             <div className="space-y-4 md:space-y-8">
@@ -97,13 +98,13 @@ export function ContactSection() {
               style={{ transitionDelay: "400ms" }}
             >
               <p className="mb-4 text-lg leading-relaxed text-foreground/90 md:text-xl font-sans">
-                always down for a coffee!
+                Always down for a coffee!
                 <span className="ml-2 align-middle text-[12px]" style={{ color: "#FFB6C1" }}>
                   ❤
                 </span>
               </p>
               <p className="text-base leading-relaxed text-foreground/70 md:text-base">
-                whether you're looking for a collaborator, have an interesting problem to solve, or just want to say hi, feel free to reach out :)
+                Whether you're looking for a collaborator, have an interesting problem to solve, or just want to say hi, feel free to reach out :)
               </p>
             </div>
 

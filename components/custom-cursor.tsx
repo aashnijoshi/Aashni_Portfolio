@@ -1,48 +1,66 @@
 "use client"
 
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useCallback } from "react"
 
 export function CustomCursor() {
   const cursorRef = useRef<HTMLDivElement>(null)
   const positionRef = useRef({ x: 0, y: 0 })
   const targetPositionRef = useRef({ x: 0, y: 0 })
   const isPointerRef = useRef(false)
+  const isMovingRef = useRef(false)
+  const animationFrameId = useRef<number>(0)
 
-  useEffect(() => {
-    let animationFrameId: number
+  const updateCursor = useCallback(() => {
+    const dx = targetPositionRef.current.x - positionRef.current.x
+    const dy = targetPositionRef.current.y - positionRef.current.y
 
-    const lerp = (start: number, end: number, factor: number) => {
-      return start + (end - start) * factor
-    }
-
-    const updateCursor = () => {
-      positionRef.current.x = lerp(positionRef.current.x, targetPositionRef.current.x, 0.5)
-      positionRef.current.y = lerp(positionRef.current.y, targetPositionRef.current.y, 0.5)
-
+    // Stop the loop when close enough to target
+    if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) {
+      positionRef.current.x = targetPositionRef.current.x
+      positionRef.current.y = targetPositionRef.current.y
       if (cursorRef.current) {
         const scale = isPointerRef.current ? 1.2 : 1
         cursorRef.current.style.transform = `translate3d(${positionRef.current.x}px, ${positionRef.current.y}px, 0) translate(-50%, -50%) scale(${scale})`
       }
-
-      animationFrameId = requestAnimationFrame(updateCursor)
+      isMovingRef.current = false
+      return
     }
 
+    positionRef.current.x += dx * 0.5
+    positionRef.current.y += dy * 0.5
+
+    if (cursorRef.current) {
+      const scale = isPointerRef.current ? 1.2 : 1
+      cursorRef.current.style.transform = `translate3d(${positionRef.current.x}px, ${positionRef.current.y}px, 0) translate(-50%, -50%) scale(${scale})`
+    }
+
+    animationFrameId.current = requestAnimationFrame(updateCursor)
+  }, [])
+
+  useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       targetPositionRef.current = { x: e.clientX, y: e.clientY }
 
+      // Use tagName check instead of expensive getComputedStyle
       const target = e.target as HTMLElement
+      const tag = target.tagName
       isPointerRef.current =
-        window.getComputedStyle(target).cursor === "pointer" || target.tagName === "BUTTON" || target.tagName === "A"
+        tag === "BUTTON" || tag === "A" || target.closest("button") !== null || target.closest("a") !== null
+
+      // Only start animation loop if not already running
+      if (!isMovingRef.current) {
+        isMovingRef.current = true
+        animationFrameId.current = requestAnimationFrame(updateCursor)
+      }
     }
 
     window.addEventListener("mousemove", handleMouseMove, { passive: true })
-    animationFrameId = requestAnimationFrame(updateCursor)
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove)
-      cancelAnimationFrame(animationFrameId)
+      cancelAnimationFrame(animationFrameId.current)
     }
-  }, [])
+  }, [updateCursor])
 
   return (
     <>

@@ -124,26 +124,36 @@
     @apply border-border outline-ring/50;
     cursor: none;
   }
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     @apply bg-background text-foreground;
-  }
-
-  [data-scroll-container] {
-    scroll-behavior: smooth;
-    -webkit-overflow-scrolling: touch;
-    transform: translateZ(0);
-    backface-visibility: hidden;
-    perspective: 1000px;
-  }
-
-  section {
-    transform: translateZ(0);
-    will-change: transform;
-    contain: layout style paint;
   }
 
   button {
     transform: translateZ(0);
     backface-visibility: hidden;
   }
+}
+
+/* Orbital divider — gentle dot pulse, offset between the two dots. */
+@keyframes orbital-pulse-a {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
+}
+@keyframes orbital-pulse-b {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.22); }
+}
+.orbital-pulse-a {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: orbital-pulse-a 2.6s ease-in-out infinite;
+}
+.orbital-pulse-b {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: orbital-pulse-b 3.1s ease-in-out infinite;
+  animation-delay: -1.3s;
 }
