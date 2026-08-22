@@ -15,13 +15,23 @@ type TimelineEntry = {
 
 const entries: TimelineEntry[] = [
   {
+    slug: "apple",
+    company: "Apple",
+    role: "Machine Learning Engineer Intern",
+    period: "May 2026 to Aug 2026",
+    tagline: "Applied ML team",
+    description:
+      "Spent the summer building agentic tooling for Apple's internal data and ML platform, mostly around making some time-consuming Spark, Ray, and Airflow workflows easier for engineers, PMs, and SREs. That ended up taking me through internal APIs, MCPs, eval harnesses, Docker/Kubernetes, model deployment, and observability. I also built Spark and Ray from scratch on Kubernetes and benchmarked distributed ML workloads across 858M rows, which was probably my favorite rabbit hole of the summer.",
+    link: "https://www.apple.com/",
+  },
+  {
     slug: "hyperspell",
     company: "Hyperspell (YC F25)",
     role: "Founding Data Engineer",
-    period: "Aug 2024 to Present",
+    period: "Aug 2024 to Dec 2025",
     tagline: "Employee #1",
     description:
-      "Employee #1 at Hyperspell, a YC F25 AI infrastructure startup building context and memory for AI agents. Backed by Pioneer Fund, Afore, and a16z Speedrun. Worked across engineering and product, focusing on MCP and memory graphs for AI agents.",
+      "Joined as the founding engineer and worked across product, engineering, and developer experience. I built technical demos and example apps, spent a lot of time with users debugging edge cases and figuring out what should get built next, and helped shape how Hyperspell showed up to developers through the website, documentation, and technical content around MCP and agentic systems.",
     link: "https://www.hyperspell.com/",
   },
   {
@@ -30,7 +40,7 @@ const entries: TimelineEntry[] = [
     role: "Technical Project Manager",
     period: "Aug 2024 to May 2025",
     description:
-      "Led a 6-person Berkeley team on an ISAM feasibility study for NASA's in-space servicing, assembly, and manufacturing roadmap. Modeled the economics of hybrid Earth and in-orbit satellite manufacturing.",
+      "Worked with NASA Ames on in-space servicing, assembly, and manufacturing, trying to understand where the biggest technical gaps and commercial opportunities were. I spent a lot of time digging through mission data and research, built a Python/React visualization for 200+ space technologies, and used statistical and Monte Carlo modeling to turn that into something useful for roadmap decisions.",
     link: "https://www.nasa.gov/ames",
   },
   {
@@ -39,7 +49,7 @@ const entries: TimelineEntry[] = [
     role: "CS Researcher",
     period: "Jan 2024 to May 2024",
     description:
-      "Built a RAG pipeline over dense semiconductor research literature so the lab could pull answers out of 100+ papers without losing traceability. Spent most of my time on chunking strategy and grounding, not on the model.",
+      "Worked on an LLM system for semiconductor research, experimenting with retrieval, embeddings, vector databases, and evaluation to make a specialized body of technical knowledge easier to query. It was one of my first times going deep on RAG and taught me pretty quickly that getting an LLM to sound convincing is much easier than getting it to be consistently right.",
     link: "https://xlab.stanford.edu/",
   },
   {
@@ -48,7 +58,7 @@ const entries: TimelineEntry[] = [
     role: "AI Engineer Intern",
     period: "May 2024 to Aug 2024",
     description:
-      "Built DigiForm, an OCR and LLM pipeline that digitized handwritten Indian college applications. Also prototyped lesson planning tools for teachers in low-bandwidth schools.",
+      "Built document-processing systems for government workflows using Python, Flask, React, OCR, and LLM APIs to turn different document formats into structured data. A lot of the work ended up being about making the system around the model reliable: batching, async processing, validation, and getting workflows that took hours of manual work down to a couple of minutes.",
     link: "https://peopleplus.ai/",
   },
   {
