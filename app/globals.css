@@ -122,7 +122,14 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    cursor: none;
+  }
+  /* Hide the native cursor only where the custom one actually renders — it is
+     `hidden md:block` and bails on coarse pointers. Applying this everywhere
+     left narrow windows and touch-with-mouse setups with no cursor at all. */
+  @media (min-width: 768px) and (pointer: fine) {
+    * {
+      cursor: none;
+    }
   }
   html {
     scroll-behavior: smooth;

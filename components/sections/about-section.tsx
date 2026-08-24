@@ -39,7 +39,7 @@ export function AboutSection({ personalImages = [] }: AboutSectionProps) {
               style={{ transitionDelay: "200ms" }}
             >
               <p className="max-w-md text-sm leading-relaxed text-foreground/90 text-left font-mono md:text-sm py-0 my-0">
-                Currently reading: The Art of Spending Money by Morgan Housel
+                Currently reading: Young Money by Jack Raines
               </p>
             </div>
 

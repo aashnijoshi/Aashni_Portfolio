@@ -172,7 +172,7 @@ export function HomePage({ workImagesBySlug, personalImages }: HomePageProps) {
                 </span>
               </p>
               <p className="mb-8 max-w-xl animate-in fade-in slide-in-from-bottom-4 font-mono text-[11px] text-foreground/65 duration-1000 delay-250 md:text-xs">
-                Currently: Founding Data Engineer at Hyperspell (YC F25).
+                Prev: Machine Learning Engineer Intern at Apple.
               </p>
               <div className="mb-6 flex animate-in fade-in slide-in-from-bottom-4 gap-4 duration-1000 delay-300">
                 <a

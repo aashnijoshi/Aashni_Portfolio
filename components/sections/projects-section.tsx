@@ -9,10 +9,12 @@ type Project = {
   tagline: string
   // Short description (1–2 sentences) shown when the card is collapsed.
   shortDescription: string
-  // Full narrative shown when the card expands.
-  description: string
+  // Full narrative shown when the card expands. Omit (or match shortDescription)
+  // for projects with nothing extra to reveal — those cards stay a fixed height.
+  description?: string
   stack: string[]
-  liveUrl: string
+  // Both links are optional: internal / unpublished work has neither.
+  liveUrl?: string
   repoUrl?: string
   // Drop a PNG at /public/images/projects/<slug>.png to override the screenshot.
   image: string
@@ -21,6 +23,18 @@ type Project = {
 }
 
 const projects: Project[] = [
+  {
+    slug: "spark-ray-eks",
+    title: "Spark + Ray on EKS",
+    tagline: "Two engines, the same 858M rows, built from scratch",
+    shortDescription:
+      "Wanted to see what the engines underneath actually look like without any of the platform automation I'd been working on top of, so I stood both of them up myself from vanilla open-source packages.",
+    description:
+      "Wanted to see what the engines underneath actually look like without any of the platform automation I'd been working on top of, so I stood both of them up myself from vanilla open-source packages and went down the question of when you'd reach for one over the other. Built Spark and Ray on a self-managed Kubernetes cluster from scratch, including the S3, networking, auth, container, and observability setup around them. From there I wrote equivalent ML pipelines in Spark MLlib and Ray + XGBoost and benchmarked them across 858M rows, comparing runtime, memory, and model performance. Most of the project turned into understanding what each framework quietly does for you: Spark was much more forgiving once a workload outgrew memory, while scaling Ray meant going deeper into distributed XGBoost, streaming data, and managing memory myself.",
+    stack: ["Kubernetes", "Spark", "Ray", "XGBoost", "AWS", "Docker", "Prometheus", "Grafana"],
+    image: "/images/projects/spark-ray-eks.png",
+    gradient: { from: "#DCEEE6", to: "#A6CBBB", accent: "#1F4F3D" },
+  },
   {
     slug: "medicare-freshness",
     title: "Medicare plan data freshness monitor",
@@ -46,19 +60,6 @@ const projects: Project[] = [
     liveUrl: "https://kai-eval-dashboard.vercel.app/",
     image: "/images/projects/kai.png",
     gradient: { from: "#EADCF7", to: "#C8B4E5", accent: "#5A3E8A" },
-  },
-  {
-    slug: "memorang-mini",
-    title: "Memorang Mini, an LLM eval harness for EdTech",
-    tagline: "Quality control for AI in the classroom",
-    shortDescription:
-      "I've always cared about EdTech, and something that keeps bugging me is that most EdTech companies shipping AI features don't have a real way to tell if the AI is right.",
-    description:
-      "I've always cared about EdTech, and something that keeps bugging me is that most EdTech companies shipping AI features don't have a real way to tell if the AI is right. Vibes-based evaluation is a liability when a student is on the other end. Built a lightweight eval harness with three tabs (Datasets, Graders, Experiments) where you define rubrics, run them across test cases, and get structured pass/fail results with reasoning. Claude does the grading server-side with typed outputs, so AI quality stops being intuited and starts being measurable.",
-    stack: ["Next.js", "TypeScript", "Zustand", "shadcn/ui", "Vercel AI SDK", "Anthropic API", "Zod"],
-    liveUrl: "https://memorang-sidequest.vercel.app/",
-    image: "/images/projects/memorang-mini.png",
-    gradient: { from: "#D8EAF4", to: "#A7CAE0", accent: "#254A68" },
   },
   {
     slug: "orbit",
@@ -104,7 +105,10 @@ export function ProjectsSection() {
           </p>
         </header>
 
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10">
+        {/* items-start keeps each card at its intrinsic height. Without it the
+            grid stretches every card in a row to match the tallest one, so
+            expanding a single card visibly grew its neighbours. */}
+        <div className="grid grid-cols-1 items-start gap-8 md:grid-cols-2 md:gap-8 lg:grid-cols-3 lg:gap-10">
           {projects.map((p, i) => (
             <ProjectCard key={p.slug} project={p} index={i} />
           ))}
@@ -117,9 +121,11 @@ export function ProjectsSection() {
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const ref = useRef<HTMLElement>(null)
   const [visible, setVisible] = useState(false)
+  // Expansion is click-only: nothing about hovering or focus opens a card.
   const [expanded, setExpanded] = useState(false)
-  const [hovering, setHovering] = useState(false)
-  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // A card only expands if it actually has more to say.
+  const hasMore = Boolean(project.description && project.description !== project.shortDescription)
 
   useEffect(() => {
     const el = ref.current
@@ -134,38 +140,13 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     return () => obs.disconnect()
   }, [])
 
-  // Cleanup any pending hover timer on unmount.
-  useEffect(() => {
-    return () => {
-      if (hoverTimer.current) clearTimeout(hoverTimer.current)
-    }
-  }, [])
-
-  const handleMouseEnter = () => {
-    if (hoverTimer.current) clearTimeout(hoverTimer.current)
-    // 400ms intent-to-expand delay so casual cursor passes don't trigger expansion.
-    hoverTimer.current = setTimeout(() => setHovering(true), 400)
-  }
-
-  const handleMouseLeave = () => {
-    if (hoverTimer.current) {
-      clearTimeout(hoverTimer.current)
-      hoverTimer.current = null
-    }
-    // Collapse is instant — no delay on the way out.
-    setHovering(false)
-    setExpanded(false)
-  }
-
-  const isOpen = hovering || expanded
+  const isOpen = hasMore && expanded
 
   return (
     <article
       ref={ref}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/5 backdrop-blur-md transition-all duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-1 hover:border-foreground/20 hover:shadow-[0_20px_60px_-30px_rgba(0,0,0,0.55)] ${
-        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+      className={`group relative flex flex-col overflow-hidden rounded-2xl border border-foreground/10 bg-foreground/5 backdrop-blur-md transition-[opacity,transform,border-color,box-shadow] duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-foreground/20 hover:shadow-[0_10px_30px_-22px_rgba(0,0,0,0.5)] focus-within:border-foreground/20 motion-reduce:transition-none motion-reduce:hover:translate-y-0 ${
+        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0 motion-reduce:translate-y-0 motion-reduce:opacity-100"
       }`}
       style={{ transitionDelay: `${Math.min(index * 60, 200)}ms` }}
     >
@@ -174,7 +155,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       {/* Copy */}
       <div className="flex flex-1 flex-col gap-3 p-5 md:p-6">
         <div>
-          <h3 className="font-serif text-lg font-normal leading-snug text-foreground md:text-xl">
+          {/* Two-line floor keeps collapsed cards in a row roughly level now
+              that the grid no longer stretches them to a common height. */}
+          <h3 className="font-serif text-lg font-normal leading-snug text-foreground md:min-h-[3.45rem] md:text-xl">
             {project.title}
           </h3>
           <p className="mt-1 font-mono text-[11px] text-foreground/60 md:text-xs">
@@ -185,8 +168,8 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         <ExpandableDescription
           short={project.shortDescription}
           full={project.description}
+          hasMore={hasMore}
           isOpen={isOpen}
-          expanded={expanded}
           onToggle={() => setExpanded((v) => !v)}
         />
 
@@ -194,25 +177,30 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           {project.stack.join(" · ")}
         </p>
 
-        <div className="flex flex-wrap gap-2 pt-1">
-          <a
-            href={project.liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full bg-foreground/95 px-3.5 py-1.5 text-xs font-medium text-background backdrop-blur transition-colors hover:bg-foreground"
-          >
-            Live ↗
-          </a>
-          <a
-            href={project.repoUrl ?? "#"}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-full border border-foreground/15 bg-foreground/5 px-3.5 py-1.5 text-xs font-medium text-foreground backdrop-blur transition-colors hover:border-foreground/30 hover:bg-foreground/10"
-            aria-disabled={!project.repoUrl}
-          >
-            GitHub ↗
-          </a>
-        </div>
+        {(project.liveUrl || project.repoUrl) && (
+          <div className="flex flex-wrap gap-2 pt-1">
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full bg-foreground/95 px-3.5 py-1.5 text-xs font-medium text-background backdrop-blur transition-colors hover:bg-foreground"
+              >
+                Live ↗
+              </a>
+            )}
+            {project.repoUrl && (
+              <a
+                href={project.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-full border border-foreground/15 bg-foreground/5 px-3.5 py-1.5 text-xs font-medium text-foreground backdrop-blur transition-colors hover:border-foreground/30 hover:bg-foreground/10"
+              >
+                GitHub ↗
+              </a>
+            )}
+          </div>
+        )}
       </div>
     </article>
   )
@@ -223,6 +211,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
  *   1. Local file at project.image (user can drop a PNG to override).
  *   2. Live screenshot from api.microlink.io of project.liveUrl.
  *   3. Branded gradient placeholder with the project title.
+ *
+ * Projects without a liveUrl (internal / unpublished work) skip step 2 and
+ * fall straight from the local file to the placeholder.
  */
 function ProjectPreview({ project }: { project: Project }) {
   // "checking" = preflight local file; "local" = local file is valid; "microlink" = fall through to screenshot API; "placeholder" = branded fallback
@@ -230,50 +221,53 @@ function ProjectPreview({ project }: { project: Project }) {
 
   const microlinkUrl = useMemo(
     () =>
-      `https://api.microlink.io/?url=${encodeURIComponent(
-        project.liveUrl,
-      )}&screenshot=true&embed=screenshot.url&meta=false&waitUntil=networkidle0&viewport.width=1280&viewport.height=800`,
+      project.liveUrl
+        ? `https://api.microlink.io/?url=${encodeURIComponent(
+            project.liveUrl,
+          )}&screenshot=true&embed=screenshot.url&meta=false&waitUntil=networkidle0&viewport.width=1280&viewport.height=800`
+        : null,
     [project.liveUrl],
   )
 
   // Preflight the local file. Empty/invalid files load with naturalWidth === 0,
-  // 404s fire onerror. Either way we advance to the microlink screenshot.
+  // 404s fire onerror. Either way we advance past the local file.
   useEffect(() => {
     let cancelled = false
+    const fallback = microlinkUrl ? "microlink" : "placeholder"
     const probe = new window.Image()
     probe.onload = () => {
       if (cancelled) return
-      setStage(probe.naturalWidth > 0 ? "local" : "microlink")
+      setStage(probe.naturalWidth > 0 ? "local" : fallback)
     }
     probe.onerror = () => {
       if (cancelled) return
-      setStage("microlink")
+      setStage(fallback)
     }
     probe.src = project.image
     return () => {
       cancelled = true
     }
-  }, [project.image])
+  }, [project.image, microlinkUrl])
 
   return (
     <div className="relative aspect-[16/10] w-full overflow-hidden border-b border-foreground/10">
-      <PreviewSkeleton gradient={project.gradient} />
+      <PreviewSkeleton gradient={project.gradient} animate={stage === "checking"} />
       {stage === "local" && (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
           src={project.image}
           alt={project.title}
           loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02]"
+          className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.015] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
         />
       )}
-      {stage === "microlink" && (
+      {stage === "microlink" && microlinkUrl && (
         /* eslint-disable-next-line @next/next/no-img-element */
         <img
           src={microlinkUrl}
           alt={`${project.title} live preview`}
           loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.02]"
+          className="absolute inset-0 h-full w-full object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.22,0.61,0.36,1)] group-hover:scale-[1.015] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
           onError={() => setStage("placeholder")}
         />
       )}
@@ -285,13 +279,15 @@ function ProjectPreview({ project }: { project: Project }) {
 
 function PreviewSkeleton({
   gradient,
+  animate,
 }: {
   gradient: Project["gradient"]
+  animate: boolean
 }) {
   return (
     <div
       aria-hidden
-      className="absolute inset-0 animate-pulse"
+      className={`absolute inset-0 ${animate ? "animate-pulse motion-reduce:animate-none" : ""}`}
       style={{
         background: `linear-gradient(135deg, ${gradient.from} 0%, ${gradient.to} 100%)`,
       }}
@@ -299,6 +295,11 @@ function PreviewSkeleton({
   )
 }
 
+/**
+ * Terminal state of the preview chain — used both while waiting on an image
+ * and permanently for projects that will never have a public screenshot.
+ * Deliberately shows the title only, so it never claims a preview is loading.
+ */
 function BrandedPlaceholder({ project }: { project: Project }) {
   const { from, to, accent } = project.gradient
   return (
@@ -308,20 +309,12 @@ function BrandedPlaceholder({ project }: { project: Project }) {
         background: `linear-gradient(135deg, ${from} 0%, ${to} 100%)`,
       }}
     >
-      <div className="relative z-10">
-        <p
-          className="font-mono text-[10px] uppercase tracking-[0.2em] opacity-70"
-          style={{ color: accent }}
-        >
-          Preview loading
-        </p>
-        <p
-          className="font-serif text-xl font-normal leading-tight md:text-2xl"
-          style={{ color: accent }}
-        >
-          {project.title.split(",")[0]}
-        </p>
-      </div>
+      <p
+        className="relative z-10 font-serif text-xl font-normal leading-tight md:text-2xl"
+        style={{ color: accent }}
+      >
+        {project.title.split(",")[0]}
+      </p>
       <div
         aria-hidden
         className="absolute -right-6 -top-6 h-32 w-32 rounded-full opacity-30 blur-2xl"
@@ -334,58 +327,71 @@ function BrandedPlaceholder({ project }: { project: Project }) {
 function ExpandableDescription({
   short,
   full,
+  hasMore,
   isOpen,
-  expanded,
   onToggle,
 }: {
   short: string
-  full: string
+  full?: string
+  hasMore: boolean
   isOpen: boolean
-  expanded: boolean
   onToggle: () => void
 }) {
-  // isOpen is the unified open state: true when either the hover-intent
-  // delay has elapsed OR the user has explicitly tapped "Read more".
+  // Cards with nothing extra to reveal render as plain, fixed-height copy —
+  // no toggle, no height change on hover.
+  if (!hasMore) {
+    return <p className="text-sm leading-relaxed text-foreground/80">{short}</p>
+  }
+
+  // Both blocks animate their own intrinsic height via a nested 0fr→1fr grid
+  // row, so the card grows to exactly the content height with no magic
+  // max-height numbers and no clipped text on long copy. Timing lives in
+  // utility classes (not inline styles) so motion-reduce can override it.
+  const rowTransition =
+    "transition-[grid-template-rows,opacity,transform] duration-[420ms] ease-[cubic-bezier(0.22,0.61,0.36,1)] motion-reduce:transition-none"
+
   return (
     <div className="relative">
-      {/* Collapsed preview (always rendered so it stays anchored) */}
+      {/* Collapsed preview */}
       <div
-        className={`relative overflow-hidden transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-          isOpen ? "max-h-0 opacity-0" : "max-h-[4.75rem] opacity-100"
-        }`}
+        className={`grid ${rowTransition} ${isOpen ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"}`}
+        aria-hidden={isOpen}
       >
-        <p
-          className="text-sm leading-relaxed text-foreground/80"
-          style={{
-            WebkitMaskImage:
-              "linear-gradient(to bottom, black 55%, transparent 100%)",
-            maskImage: "linear-gradient(to bottom, black 55%, transparent 100%)",
-          }}
-        >
-          {short}
-        </p>
+        <div className="min-h-0 overflow-hidden">
+          <p
+            className="text-sm leading-relaxed text-foreground/80"
+            style={{
+              WebkitMaskImage:
+                "linear-gradient(to bottom, black 55%, transparent 100%)",
+              maskImage: "linear-gradient(to bottom, black 55%, transparent 100%)",
+            }}
+          >
+            {short}
+          </p>
+        </div>
       </div>
 
       {/* Expanded narrative */}
       <div
-        className={`overflow-hidden transition-[max-height,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
-          isOpen ? "max-h-[40rem] opacity-100" : "max-h-0 opacity-0"
+        className={`grid ${rowTransition} ${
+          isOpen ? "grid-rows-[1fr] translate-y-0 opacity-100" : "grid-rows-[0fr] translate-y-0.5 opacity-0"
         }`}
       >
-        <p className="text-sm leading-relaxed text-foreground/80">{full}</p>
+        <div className="min-h-0 overflow-hidden">
+          <p className="text-sm leading-relaxed text-foreground/80">{full}</p>
+        </div>
       </div>
 
       {/* Mobile / click-to-pin toggle */}
       <button
         type="button"
         onClick={onToggle}
-        aria-expanded={expanded}
-        aria-label={expanded ? "Collapse description" : "Expand description"}
+        aria-expanded={isOpen}
         className="mt-2 inline-flex items-center gap-1 font-mono text-[11px] text-foreground/60 transition-colors hover:text-foreground md:text-xs"
       >
-        <span>{expanded ? "Read less" : "Read more"}</span>
+        <span>{isOpen ? "Read less" : "Read more"}</span>
         <ChevronDown
-          className={`h-3 w-3 transition-transform duration-300 ${expanded ? "rotate-180" : "rotate-0"}`}
+          className={`h-3 w-3 transition-transform duration-300 ease-out motion-reduce:transition-none ${isOpen ? "rotate-180" : "rotate-0"}`}
         />
       </button>
     </div>
